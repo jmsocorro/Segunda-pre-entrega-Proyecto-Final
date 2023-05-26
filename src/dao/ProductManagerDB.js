@@ -1,10 +1,43 @@
 import { productModel } from "../dao/models/product.model.js";
 
 class ProductManagerDB {
-    getProducts = async (limit) => {
+    getProducts = async (limit = 10, page = 1, query = "{}", sort) => {
+        // verifico si query tiene un formato valido
+        const isValidJSON = (query) => {
+            try {
+                JSON.parse(query);
+                return true;
+            } catch (e) {
+                return false;
+            }
+        };
+        const vquery = isValidJSON ? JSON.parse(query) : {};
+        // verifico si sort tiene un formato valido
+        const vsort = sort === "asc" || sort === "desc" ? { price: sort } : {};
         try {
-            const products = productModel.find().limit(limit).lean().exec();
-            return products;
+            const productos = await productModel.paginate(vquery, {
+                page,
+                limit,
+                lean: true,
+                vsort,
+            });
+            const result = {
+                status: "success",
+                payload: productos.docs,
+                totalPages: productos.totalPages,
+                prevPage: productos.prevPage,
+                nextPage: productos.nextPage,
+                page: productos.page,
+                hasPrevPage: productos.hasPrevPage,
+                hasNextPage: productos.hasNextPage,
+                prevLink: productos.hasPrevPage
+                    ? "products?query="+query+"&limit="+limit+"&sort="+sort+"&page=" + productos.prevPage
+                    : null,
+                nextLink: productos.hasNextPage
+                    ? "products?query="+query+"&limit="+limit+"&sort="+sort+"&page=" + productos.nextPage
+                    : null,
+            };
+            return result;
         } catch (error) {
             return { error: 3, servererror: error };
         }

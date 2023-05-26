@@ -1,0 +1,38 @@
+<h3>Productos</h3>
+<div class="filters">
+    <div class="category">
+        <a href='?query={"category":"Impermeabilizantes"}'>Impermeabilizantes</a>
+        <a href='?query={"category":"Reparación de hormigón"}'>Reparación de hormigón</a>
+        <a href='?query={"category":"Aditivos"}'>Aditivos</a>
+        <a href='?query={"category":"Grout"}'>Grout</a>
+        <a href='?query={"category":"Selladores"}'>Selladores</a>
+        <a href='?query={"category":"Adhesivos"}'>Adhesivos</a>
+        <a href='?query={"category":"Pisos Decorativos"}'>Pisos Decorativos</a>
+        <a href='?query={"category":"Revoques"}'>Revoques</a>
+        <a href='?query={"category":"Pastinas"}'>Pastinas</a>
+        <a href='?query={"category":"Pisos de Alto desempeño"}'>Pisos de Alto desempeño</a>
+        <a href='?query={"category":"Complementos"}'>Complementos</a>
+    </div>
+    <div class="stock">
+        <a href='?query={"stock":{"$gt":"0"}}'>Productos con stock</a>
+        <a href='?query={}'>Todos los productos</a>
+    </div>
+</div>
+<div class="products">
+{{#each payload}}
+    <div class="product">
+        <h4>{{this.title}}</h4>
+        <img src="https://sinteplastconstruccion.com.ar/assets/img/sinteplastconstruccion.com.ar/photos/w300/{{this.thumbnails}}"  alt="foto producto" width="100">
+        <p>{{this.description}}</p>
+        <p>Precio: ${{this.price}}</p>
+        <p>Categoría: {{this.category}}</p>
+        <p>Imagen: {{this.thumbnails}}</p>
+        <p>Status: {{this.status}}</p>
+        <p>Código: {{this.code}}</p>
+        <p>Stock: {{this.stock}}</p>
+    </div>
+{{/each}}
+</div>
+<div class="paginate">
+
+</div>

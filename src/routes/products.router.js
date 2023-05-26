@@ -5,9 +5,9 @@ const router = Router();
 const prod = new ProductManagerDB();
 
 router.get("/", async (req, res) => {
-    let { limit } = req.query;
+    let { limit = 10, page = 1, query, sort } = req.query;
     try {
-        const productos = await prod.getProducts(limit);
+        const productos = await prod.getProducts(limit, page, query, sort);
         res.status(200).send(productos);
     } catch (err) {
         res.status(400).send(err);

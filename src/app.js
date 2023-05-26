@@ -6,6 +6,7 @@ import { Server } from "socket.io";
 import { ProductManager } from "./dao/ProductManager.js";
 
 import productsRouter from "./routes/products.router.js";
+import productRouter from "./routes/product.router.js";
 import cartsRouter from "./routes/carts.router.js";
 import homeRouter from "./routes/home.router.js";
 import realTimeProductsRouter from "./routes/realtimeproducts.router.js";
@@ -28,6 +29,7 @@ app.set("view engine", "handlebars");
 
 app.use("/realtimeproducts", realTimeProductsRouter);
 app.use("/api/products", productsRouter);
+app.use("/products", productRouter);
 app.use("/api/carts", cartsRouter);
 app.use("/chat", chatRouter);
 
