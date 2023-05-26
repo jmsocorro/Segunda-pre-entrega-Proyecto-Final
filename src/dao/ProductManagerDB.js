@@ -31,10 +31,24 @@ class ProductManagerDB {
                 hasPrevPage: productos.hasPrevPage,
                 hasNextPage: productos.hasNextPage,
                 prevLink: productos.hasPrevPage
-                    ? "products?query="+query+"&limit="+limit+"&sort="+sort+"&page=" + productos.prevPage
+                    ? "products?query=" +
+                      query +
+                      "&limit=" +
+                      limit +
+                      "&sort=" +
+                      sort +
+                      "&page=" +
+                      productos.prevPage
                     : null,
                 nextLink: productos.hasNextPage
-                    ? "products?query="+query+"&limit="+limit+"&sort="+sort+"&page=" + productos.nextPage
+                    ? "products?query=" +
+                      query +
+                      "&limit=" +
+                      limit +
+                      "&sort=" +
+                      sort +
+                      "&page=" +
+                      productos.nextPage
                     : null,
             };
             return result;
@@ -128,78 +142,68 @@ class ProductManagerDB {
             //const updateId = found._id
             if (found === null) {
                 return { error: 2, errortxt: "el producto no existe" };
-            } else {
-                let errortxt = [];
-                (!title || title.length === 0) &&
-                    errortxt.push("title es obligatorio.");
-                (!description || description.length === 0) &&
-                    errortxt.push("description es obligatorio.");
-                (!code || code.length === 0) &&
-                    errortxt.push("code es obligatorio.");
-                (!price || price.length === 0) &&
-                    errortxt.push("price es obligatorio.");
-                price &&
-                    (isNaN(price) || price <= 0) &&
-                    errortxt.push("price tiene que ser un número positivo.");
-                (!stock || stock.length === 0) &&
-                    errortxt.push("stock es obligatorio.");
-                stock &&
-                    (isNaN(stock) || stock <= 0) &&
-                    errortxt.push("stock tiene que ser un número positivo.");
-                (!category || category.length === 0) &&
-                    errortxt.push("category es obligatorio.");
-                (!status || status.length === 0) &&
-                    errortxt.push("status es obligatorio.");
-                !thumbnails && errortxt.push("status es obligatorio.");
-                !Array.isArray(thumbnails) &&
-                    errortxt.push("thumbnails tiene que ser un array.");
-                // verifico si el codigo nuevo no se repite en otro producto
-                try {
-                    const codefound = await productModel
-                        .findOne({
-                            $and: [{ _id: { $ne: id } }, { code: code }],
-                        })
-                        .lean()
-                        .exec();
-                    //console.log(codefound);
-                    if (codefound !== null) {
-                        errortxt.push(
-                            "Ya se encuentra un producto con el mismo code.",
-                        );
-                    }
-                } catch (error) {
-                    console.log(error);
-                }
-
-                if (errortxt.length > 0) {
-                    return { error: 1, errortxt: errortxt };
-                } else {
-                    const updatedProduct = await productModel.findByIdAndUpdate(
-                        id,
-                        {
-                            title,
-                            description,
-                            price,
-                            status,
-                            category,
-                            thumbnails,
-                            code,
-                            stock,
-                        },
-                    );
-                    return {
-                        id,
-                        title,
-                        description,
-                        price,
-                        status,
-                        category,
-                        thumbnails,
-                        code,
-                        stock,
-                    };
-                }
             }
+            let errortxt = [];
+            (!title || title.length === 0) &&
+                errortxt.push("title es obligatorio.");
+            (!description || description.length === 0) &&
+                errortxt.push("description es obligatorio.");
+            (!code || code.length === 0) &&
+                errortxt.push("code es obligatorio.");
+            (!price || price.length === 0) &&
+                errortxt.push("price es obligatorio.");
+            price &&
+                (isNaN(price) || price <= 0) &&
+                errortxt.push("price tiene que ser un número positivo.");
+            (!stock || stock.length === 0) &&
+                errortxt.push("stock es obligatorio.");
+            stock &&
+                (isNaN(stock) || stock <= 0) &&
+                errortxt.push("stock tiene que ser un número positivo.");
+            (!category || category.length === 0) &&
+                errortxt.push("category es obligatorio.");
+            (!status || status.length === 0) &&
+                errortxt.push("status es obligatorio.");
+            !thumbnails && errortxt.push("status es obligatorio.");
+            !Array.isArray(thumbnails) &&
+                errortxt.push("thumbnails tiene que ser un array.");
+            // verifico si el codigo nuevo no se repite en otro producto
+
+            const codefound = await productModel
+                .findOne({
+                    $and: [{ _id: { $ne: id } }, { code: code }],
+                })
+                .lean()
+                .exec();
+            //console.log(codefound);
+            if (codefound !== null) {
+                errortxt.push("Ya se encuentra un producto con el mismo code.");
+            }
+
+            if (errortxt.length > 0) {
+                return { error: 1, errortxt: errortxt };
+            }
+            const updatedProduct = await productModel.findByIdAndUpdate(id, {
+                title,
+                description,
+                price,
+                status,
+                category,
+                thumbnails,
+                code,
+                stock,
+            });
+            return {
+                id,
+                title,
+                description,
+                price,
+                status,
+                category,
+                thumbnails,
+                code,
+                stock,
+            };
         } catch (error) {
             return { error: 3, servererror: error };
         }
