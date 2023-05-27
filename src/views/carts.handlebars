@@ -1,4 +1,4 @@
-<h3>Productos</h3>
+<h3>Carros</h3>
 <div class="filters">
     <div class="category">
         <a href='products'>Todas las categorías</a>
@@ -34,6 +34,7 @@
             <a class="disabled">Siguiente</a>
             <a class="disabled">Ultima</a>
         {{/if}}
+        <a class="disabled">Siguiente</a>
 </div>
 <div class="limite">
     <a href="?limit=5">ver 5</a>
@@ -54,7 +55,7 @@
         <p>Código: {{this.code}}</p>
         <p>Stock: {{this.stock}}</p>
         <input class type="button" value="Agregar al carro">
-        <a href="../products/{{this.id}}" class="verproducto">Ver detalles</a>
+        <a href="products/{{this.id}}" class="verproducto">Ver detalles</a>
     </div>
 {{/each}}
 </div>

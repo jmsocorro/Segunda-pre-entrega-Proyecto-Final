@@ -3,10 +3,10 @@ import handlebars from "express-handlebars";
 import mongoose from "mongoose";
 
 import { Server } from "socket.io";
-import { ProductManager } from "./dao/ProductManager.js";
 
+import apiProductsRouter from "./routes/apiProducts.router.js";
 import productsRouter from "./routes/products.router.js";
-import productRouter from "./routes/product.router.js";
+import apiCartsRouter from "./routes/apiCarts.router.js";
 import cartsRouter from "./routes/carts.router.js";
 import homeRouter from "./routes/home.router.js";
 import realTimeProductsRouter from "./routes/realtimeproducts.router.js";
@@ -28,9 +28,10 @@ app.set("views", __dirname + "/views");
 app.set("view engine", "handlebars");
 
 app.use("/realtimeproducts", realTimeProductsRouter);
-app.use("/api/products", productsRouter);
-app.use("/products", productRouter);
-app.use("/api/carts", cartsRouter);
+app.use("/api/products", apiProductsRouter);
+app.use("/products", productsRouter);
+app.use("/api/carts", apiCartsRouter);
+app.use("/carts", cartsRouter);
 app.use("/chat", chatRouter);
 
 try {
@@ -87,28 +88,3 @@ try {
 } catch (error) {
     console.log(error);
 }
-/*
-socketServer.on("connection", (socketClient) => {
-    const prod = new ProductManager("./src/data/productos.json");
-    console.log("cliente conectado");
-    socketClient.on("deleteProd", (prodId) => {
-        const result = prod.deleteProduct(prodId);
-        if (result.error) {
-            socketClient.emit("error", result);
-        } else {
-            socketServer.emit("products", prod.getProducts());
-            socketClient.emit("result", "Producto eliminado");
-        }
-    });
-    socketClient.on("addProd", (product) => {
-        const producto= JSON.parse(product)
-        const result = prod.addProduct(producto);
-        if (result.error) {
-            socketClient.emit("error", result);
-        } else {
-            socketServer.emit("products", prod.getProducts());
-            socketClient.emit("result", "Producto agregado");
-        }
-    });
-});
-*/

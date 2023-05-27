@@ -21,6 +21,9 @@ class ProductManagerDB {
                 lean: true,
                 vsort,
             });
+            const queryLink = query === "{}" ? "" : "query=" + query + "&";
+            const limitLink = limit === 10 ? "" : "limit=" + limit + "&";
+            const sortLink = sort === undefined ? "" : "sort=" + sort + "&";
             const result = {
                 status: "success",
                 payload: productos.docs,
@@ -30,25 +33,36 @@ class ProductManagerDB {
                 page: productos.page,
                 hasPrevPage: productos.hasPrevPage,
                 hasNextPage: productos.hasNextPage,
+                firstLink: productos.hasPrevPage
+                    ? "products?" +
+                      queryLink +
+                      limitLink +
+                      sortLink +
+                      "&page=1"
+                    : null,
                 prevLink: productos.hasPrevPage
-                    ? "products?query=" +
-                      query +
-                      "&limit=" +
-                      limit +
-                      "&sort=" +
-                      sort +
+                    ? "products?" +
+                      queryLink +
+                      limitLink +
+                      sortLink +
                       "&page=" +
                       productos.prevPage
                     : null,
                 nextLink: productos.hasNextPage
-                    ? "products?query=" +
-                      query +
-                      "&limit=" +
-                      limit +
-                      "&sort=" +
-                      sort +
-                      "&page=" +
+                    ? "products?" +
+                      queryLink +
+                      limitLink +
+                      sortLink +
+                      "page=" +
                       productos.nextPage
+                    : null,
+                lastLink: productos.hasNextPage
+                    ? "products?" +
+                      queryLink +
+                      limitLink +
+                      sortLink +
+                      "page=" +
+                      productos.totalPages
                     : null,
             };
             return result;

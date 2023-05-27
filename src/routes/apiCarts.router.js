@@ -10,9 +10,7 @@ router.get("/", async (req, res) => {
         if (result.error) {
             res.status(400).send(result);
         } else {
-            // res.status(201).send(result);
-            console.log(result)
-            res.render("carts", result)
+            res.status(201).send(result);
         }
     } catch (err) {
         res.status(400).send(err);
@@ -23,11 +21,9 @@ router.get("/:cid", async (req, res) => {
     try {
         const result = await carro.getCartById(cid);
         if (result.error) {
-           res.status(400).send(result);
+            res.status(400).send(result);
         } else {
-            // res.status(201).send(result);
-            console.log(result)
-            res.render("cart", result)
+            res.status(201).send(result);
         }
     } catch (err) {
         res.status(400).send(err);

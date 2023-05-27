@@ -2,9 +2,24 @@ import { cartModel } from "../dao/models/cart.model.js";
 import { productModel } from "./models/product.model.js";
 
 class CartManagerDB {
-    getCarts = (limit) => {
-        console.log(limit);
-        const carts = cartModel.find().limit(limit).lean().exec();
+    getCarts = async (limit = 10, page = 1, query = "{}", sort) => {
+        // verifico si query tiene un formato valido
+        const isValidJSON = (query) => {
+            try {
+                JSON.parse(query);
+                return true;
+            } catch (e) {
+                return false;
+            }
+        };
+        const vquery = isValidJSON ? JSON.parse(query) : {};
+        // verifico si sort tiene un formato valido
+        const carts = cartModel.paginate(vquery, {
+            page,
+            limit,
+            lean: true,
+            sort,
+        });
         return carts;
     };
     getCartById = async (cid) => {
@@ -14,6 +29,9 @@ class CartManagerDB {
                 .findOne({ _id: cid })
                 .lean()
                 .exec();
+            if (cartfound === null) {
+                return { error: 2, errortxt: "el carro no existe" };
+            }
             return cartfound;
         } catch (error) {
             return { error: 3, servererror: error };
@@ -33,7 +51,6 @@ class CartManagerDB {
         }
     };
     addProduct = async ({ cid, pid }) => {
-        // busco el indice del Carro
         try {
             const cartfound = await cartModel.findOne({ _id: cid });
             if (cartfound === null) {
@@ -75,11 +92,9 @@ class CartManagerDB {
                 console.log(product.product)
                 return product.product;
             });
-            console.log(prodids)
             const prodexists = await productModel.find({
                 _id: { $in: prodids },
             });
-            console.log(prodexists)
             if (prodexists.length === products.products.length) {
                 const updatedProducts = await cartModel.updateOne(
                     { _id: cid },
@@ -92,11 +107,6 @@ class CartManagerDB {
                     errortxt: "alguno de los productos no existe",
                 };
             }
-            /*
-            if (prodexists === null) {
-                return { error: 2, errortxt: "el producto no existe" };
-            }
-            */
             return prodexists;
         } catch (error) {
             return { error: 3, servererror: error };
