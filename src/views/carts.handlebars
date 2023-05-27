@@ -1,24 +1,4 @@
 <h3>Carros</h3>
-<div class="filters">
-    <div class="category">
-        <a href='products'>Todas las categorías</a>
-        <a href='?query={"category":"Impermeabilizantes"}'>Impermeabilizantes</a>
-        <a href='?query={"category":"Reparación de hormigón"}'>Reparación de hormigón</a>
-        <a href='?query={"category":"Aditivos"}'>Aditivos</a>
-        <a href='?query={"category":"Grout"}'>Grout</a>
-        <a href='?query={"category":"Selladores"}'>Selladores</a>
-        <a href='?query={"category":"Adhesivos"}'>Adhesivos</a>
-        <a href='?query={"category":"Pisos Decorativos"}'>Pisos Decorativos</a>
-        <a href='?query={"category":"Revoques"}'>Revoques</a>
-        <a href='?query={"category":"Pastinas"}'>Pastinas</a>
-        <a href='?query={"category":"Pisos de Alto desempeño"}'>Pisos de Alto desempeño</a>
-        <a href='?query={"category":"Complementos"}'>Complementos</a>
-    </div>
-    <div class="stock">
-        <a href='?query={"stock":{"$gt":"0"}}'>Productos con stock</a>
-        <a href='products'>Todos los productos</a>
-    </div>
-</div>
 <div class="paginado">
         {{#if hasPrevPage }}
             <a class="avtive" href='{{firstLink}}'>Primera</a>
@@ -42,20 +22,11 @@
     <a href="?limit=20">ver 20</a>
     <a href="?limit=50">ver 50</a>
 </div>
-<div class="products">
-{{#each payload}}
-    <div class="product">
-        <h4>{{this.title}}</h4>
-        <img src="https://sinteplastconstruccion.com.ar/assets/img/sinteplastconstruccion.com.ar/photos/w300/{{this.thumbnails}}"  alt="foto producto" width="100">
-        <p>{{this.description}}</p>
-        <p>Precio: ${{this.price}}</p>
-        <p>Categoría: {{this.category}}</p>
-        <p>Imagen: {{this.thumbnails}}</p>
-        <p>Status: {{this.status}}</p>
-        <p>Código: {{this.code}}</p>
-        <p>Stock: {{this.stock}}</p>
-        <input class type="button" value="Agregar al carro">
-        <a href="products/{{this.id}}" class="verproducto">Ver detalles</a>
+<div class="carts">
+{{#each docs}}
+    <div class="cart">
+        <h4>{{this._id}}</h4>
+        <a href="../carts/{{this._id}}" class="vercarro">Ver Carro</a>
     </div>
 {{/each}}
 </div>
