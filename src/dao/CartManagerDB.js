@@ -82,14 +82,12 @@ class CartManagerDB {
         }
     };
     updateAllProducts = async (cid, products) => {
-        console.log(cid, products);
         try {
             const cartfound = await cartModel.findOne({ _id: cid });
             if (cartfound === null) {
                 return { error: 2, errortxt: "el carro no existe" };
             }
             const prodids = products.products.map((product) => {
-                console.log(product.product)
                 return product.product;
             });
             const prodexists = await productModel.find({
@@ -146,7 +144,6 @@ class CartManagerDB {
         }
     };
     deleteAllProducts = async (cid) => {
-        console.log(cid);
         try {
             const cartfound = await cartModel.findOne({ _id: cid });
             if (cartfound === null) {

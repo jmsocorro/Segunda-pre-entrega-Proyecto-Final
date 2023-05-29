@@ -113,7 +113,6 @@ class ProductManagerDB {
                 .findOne({ code: code })
                 .lean()
                 .exec();
-            console.log(found);
             if (found !== null) {
                 errortxt.push("Ya se encuentra un producto con el mismo code.");
             }
@@ -152,8 +151,6 @@ class ProductManagerDB {
         // busco el indice del producto
         try {
             const found = await productModel.findOne({ _id: id }).lean().exec();
-            //console.log(found);
-            //const updateId = found._id
             if (found === null) {
                 return { error: 2, errortxt: "el producto no existe" };
             }
@@ -189,7 +186,6 @@ class ProductManagerDB {
                 })
                 .lean()
                 .exec();
-            //console.log(codefound);
             if (codefound !== null) {
                 errortxt.push("Ya se encuentra un producto con el mismo code.");
             }
@@ -230,7 +226,6 @@ class ProductManagerDB {
                 return { error: 2, errortxt: "el producto no existe" };
             } else {
                 const deletedProd = await productModel.deleteOne({ _id: id });
-                console.log(deletedProd);
                 return deletedProd;
             }
         } catch (error) {
