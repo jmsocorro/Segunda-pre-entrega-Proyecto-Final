@@ -1,4 +1,4 @@
-.products,
+.carts,
 .category,
 .paginado,
 .filters,
@@ -11,7 +11,7 @@
     align-content: flex-start
     width: 100%
     padding: 1rem
-    .product
+    .cart
         flex: 0 0 25%
         padding: .5rem
 .category,
@@ -53,10 +53,25 @@
     &::before
         content: 'stock'
 
-.product
+.cart
     margin-bottom: 3rem
     &.detail
         padding: 1rem
+        .product
+            .details
+                display: flex
+                flex-wrap: wrap
+                justify-content: space-evenly
+                align-items: stretch
+                align-content: flex-start
+                width: 100%
+                padding: .5rem
+                img
+                    flex: 0 0 25%
+                    padding: .5rem
+                .info
+                    flex: 0 0 75%
+                    padding: .5rem
     a,
     input
         width: 100%

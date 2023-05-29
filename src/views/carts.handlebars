@@ -1,4 +1,5 @@
-<h3>Carros</h3>
+<link rel="stylesheet" href="/css/cartsStyles.css">
+<h2>Carros</h2>
 <div class="paginado">
         {{#if hasPrevPage }}
             <a class="avtive" href='{{firstLink}}'>Primera</a>
@@ -25,7 +26,7 @@
 <div class="carts">
 {{#each docs}}
     <div class="cart">
-        <h4>{{this._id}}</h4>
+        <h3>{{this._id}}</h3>
         <a href="../carts/{{this._id}}" class="vercarro">Ver Carro</a>
     </div>
 {{/each}}
